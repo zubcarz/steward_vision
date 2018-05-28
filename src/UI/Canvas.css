@@ -1,0 +1,6 @@
+canvas {
+    display: block;  /* prevents scrollbar */
+    width: 100vw;
+    height: 600px;
+    background: black;
+}

@@ -1,0 +1,14 @@
+/*  Header  */
+.NavHeader{
+    background: #272b30;
+}
+
+.NavLink{
+    color: white;
+}
+
+.NavLink:hover{
+    color: #494e53;
+}
+
+/* EndHeader */
