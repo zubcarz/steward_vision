@@ -8,7 +8,6 @@ class StewardPlatform {
             this.changeParameters(a, b, d);
             this.configOrientation();
         }
-
     }
 
     configOrientation(){
