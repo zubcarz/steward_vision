@@ -10,11 +10,11 @@ const Canvas = (props) =>{
                     <h1 className="h2">Dashboard</h1>
                     <div className="btn-toolbar mb-2 mb-md-0">
                         <div className="btn-group mr-2">
-                            <button className="btn btn-sm btn-outline-secondary">Top</button>
-                            <button className="btn btn-sm btn-outline-secondary">From</button>
-                            <button className="btn btn-sm btn-outline-secondary">Right</button>
-                            <button className="btn btn-sm btn-outline-secondary">Isometric</button>
-                            <button className="btn btn-sm btn-outline-secondary">4View</button>
+                            <button id="topCamera" className="btn btn-sm btn-outline-secondary" >Top</button>
+                            <button id="fromCamera" className="btn btn-sm btn-outline-secondary">From</button>
+                            <button id="rightCamera" className="btn btn-sm btn-outline-secondary">Right</button>
+                            <button id="isometricCamera" className="btn btn-sm btn-outline-secondary">Isometric</button>
+                            <button id="4viewCamera" className="btn btn-sm btn-outline-secondary">4View</button>
                         </div>
                     </div>
                 </div>
