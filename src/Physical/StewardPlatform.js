@@ -1,7 +1,17 @@
 class StewardPlatform {
 
-    constructor(a, b , d ){
-        this.changeParameters(a,b,d);
+    constructor(a, b , d){
+        if(!arguments.length) {
+            this.reset();
+        }
+        else {
+            this.changeParameters(a, b, d);
+            this.configOrientation();
+        }
+
+    }
+
+    configOrientation(){
         let position = {};
         let orientation = {};
         position.x =0;
@@ -21,21 +31,13 @@ class StewardPlatform {
         this.dimension = {};
         this.legs = {};
 
-        this.calculateVerticesDownPlatform();
         this.calculateVerticesUpPlatform();
+        this.calculateVerticesDownPlatform();
     }
 
     reset (){
         this.changeParameters(160, 120, 20);
-        let position = {};
-        let orientation = {};
-        position.x =0;
-        position.y =0;
-        position.z =0;
-        orientation.pitch = 0;
-        orientation.yaw = 0;
-        orientation.roll = 0;
-        this.inverseCinematic( position, orientation);
+        this.configOrientation();
     }
 
     calculateVerticesUpPlatform() {
@@ -127,7 +129,7 @@ class StewardPlatform {
 
        let xt1 = position.x
             + ((k) * ((Math.sin(orientation.pitch * radians) * Math.sin(orientation.roll * radians) * Math.sin((orientation.yaw + 60) * radians ))
-                + (Math.cos(orientation.roll * radians) * Math.cos((orientation.yaw - 60) * radians ))));
+                + (Math.cos(orientation.roll * radians) * Math.cos((orientation.yaw + 60) * radians ))));
         let yt1 = position.y
             + ((k) * (Math.cos(orientation.pitch * radians) * Math.sin((orientation.yaw + 60) * radians)));
         let zt1 = position.z
@@ -135,13 +137,13 @@ class StewardPlatform {
                 - (Math.sin(orientation.roll * radians) * Math.cos((orientation.yaw + 60) * radians))));
 
         let xt2 = position.x
-            + ((-k) * ((Math.sin(orientation.pitch * radians) * Math.sin(orientation.yaw * radians) * Math.sin(orientation.roll * radians))
-                + (Math.cos(orientation.yaw * radians) * Math.cos(orientation.roll * radians))));
+            + ((-k) * ((Math.sin(orientation.pitch * radians) * Math.sin(orientation.roll * radians) * Math.sin(orientation.yaw * radians))
+                + (Math.cos(orientation.roll * radians) * Math.cos(orientation.yaw * radians))));
         let yt2 = position.y
-            + (-this.a * (Math.cos(orientation.pitch * radians) * Math.sin(orientation.roll * radians))) / Math.pow(3, 0.5);
+            + (-this.a * (Math.cos(orientation.pitch * radians) * Math.sin(orientation.yaw * radians))) / Math.pow(3, 0.5);
         let zt2 = position.z
-            + ((-k) * ((Math.sin(orientation.pitch * radians) * Math.cos(orientation.yaw * radians) * Math.sin(orientation.roll * radians))
-                - (Math.sin(orientation.yaw * radians) * Math.cos(orientation.roll * radians))));
+            + ((-k) * ((Math.sin(orientation.pitch * radians) * Math.cos(orientation.roll * radians) * Math.sin(orientation.yaw * radians))
+                - (Math.sin(orientation.roll * radians) * Math.cos(orientation.yaw * radians))));
 
         let xt3 = position.x
             + ((k) * ((Math.sin(orientation.pitch * radians) * Math.sin(orientation.roll * radians) * Math.sin((orientation.yaw - 60)  * radians))

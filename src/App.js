@@ -11,7 +11,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        platform = new Steward( 160, 120, 20);
+        platform = new Steward();
 
         this.state = {
             a: 160,
@@ -63,10 +63,10 @@ class App extends Component {
     };
 
     aChange = (event) =>{
-        platform.changeParameters(event.target.value, this.state.b, this.state.d);
+        platform = new Steward(Number(event.target.value), this.state.b, this.state.d);
         this.cinematic();
         this.setState ({
-            a: event.target.value,
+            a: Number(event.target.value),
             downDimension : platform.getVerticesDownPlatform(),
             upDimension : platform.getVerticesUpPlatform(),
             legs: platform.getLegs()
@@ -74,10 +74,10 @@ class App extends Component {
     };
 
     bChange = (event) =>{
-        platform.changeParameters(this.state.a, event.target.value, this.state.d);
+        platform = new Steward(this.state.a, Number(event.target.value), this.state.d);
         this.cinematic();
         this.setState({
-            b: event.target.value,
+            b: Number(event.target.value),
             downDimension : platform.getVerticesDownPlatform(),
             upDimension : platform.getVerticesUpPlatform(),
             legs: platform.getLegs()
@@ -85,10 +85,10 @@ class App extends Component {
     };
 
     dChange = (event) =>{
-        platform.changeParameters(this.state.a, this.state.b, event.target.value);
+        platform = new Steward(this.state.a, this.state.b, Number(event.target.value));
         this.cinematic();
         this.setState ({
-            d: event.target.value,
+            d: Number(event.target.value),
             downDimension : platform.getVerticesDownPlatform(),
             upDimension : platform.getVerticesUpPlatform(),
             legs: platform.getLegs()

@@ -61,7 +61,7 @@ const Canvas = (props) =>{
                </tbody>
            </Table>
            <h1 className="h2">Dimensions</h1>
-           <Table>
+           <Table id="dimensions">
                <thead>
                <tr>
                    <th>Point</th>

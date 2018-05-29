@@ -94,25 +94,11 @@ function initWebGL(canvas) {
     return gl;
 }
 
-function getPlatform(){
-    let positions  = [
-        // Platform Up
-        46.19, 80,  0.0, //t1 -> 0
-        -92.38, 0,  0.0, //t2 -> 1
-        46.19,  -80,  0.0, //t3 -> 2
+function getBufferPlatform(gl){
+    let dimensions = getDimensions();
 
-        //center down
-        0, 0, -139.04, // -> 3
-
-        // Down platform
-        75.06, 10, -139.04, //b1 -> 4
-        -28.87, 70, -139.04, //b2 -> 5
-        -46.19, 60, -139.04, //b3 -> 6
-        -46.19, -60, -139.04, //b4 -> 7
-        -28.87, -70, -139.04, //b5 -> 8
-        75.06, -10, -139.04 //b6 -> 9
-    ];
-
+    let centerDown = [   0, 0, -139.04]; // -> 3
+    let positions = dimensions.t1.concat(dimensions.t2,dimensions.t3,centerDown, dimensions.b1, dimensions.b2, dimensions.b3, dimensions.b4, dimensions.b5, dimensions.b6);
     positions = scaleArray(positions, scale);
 
     let colors = [
@@ -144,62 +130,35 @@ function getPlatform(){
     ];
 
     indexSize = index.length;
+
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    const colorBuffer = gl.createBuffer();
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(generatedColors), gl.STATIC_DRAW);
+    const indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
+        new Uint16Array(index ), gl.STATIC_DRAW);
+
     return {
-        positions: positions,
-        colors : generatedColors,
-        index: index
+        position: positionBuffer,
+        color: colorBuffer,
+        indices: indexBuffer,
     }
 }
 
-function getBorders() {
-    let positions  = [
-        // Platform Up
-        46.19, 80,  0.0, //t1 -> 0
-        -92.38, 0,  0.0, //t2 -> 1
+function getBufferBorders(gl) {
 
-        46.19, 80,  0.0, //t1 -> 2
-        46.19,  -80,  0.0, //t3 -> 3
+    let dimensions = getDimensions();
+    let positions = dimensions.t1.concat(dimensions.t2, dimensions.t1, dimensions.t3, dimensions.t2, dimensions.t3, // -> up platform
+        dimensions.b1, dimensions.b2, dimensions.b3, dimensions.b4, dimensions.b5, dimensions.b6, // down long connections
+        dimensions.t1, dimensions.b1, dimensions.t1, dimensions.b2, dimensions.t2, dimensions.b4, dimensions.t2, dimensions.b3,
+        dimensions.t3, dimensions.b5, dimensions.t3, dimensions.b6, // -> between connectors
+        dimensions.b1, dimensions.b6, dimensions.b2, dimensions.b3, dimensions.b4, dimensions.b5 // -> down short connections
+        );
 
-        -92.38, 0,  0.0, //t2 -> 4
-        46.19,  -80,  0.0, //t3 -> 5
-
-        // Down platform
-        75.06, 10, -139.04, //b1 -> 6
-        -28.87, 70, -139.04, //b2 -> 7
-
-        -46.19, 60, -139.04, //b3 -> 8
-        -46.19, -60, -139.04, //b4 -> 9
-
-        -28.87, -70, -139.04, //b5 -> 10
-        75.06, -10, -139.04, //b6 -> 11
-
-        46.19, 80,  0.0, //t1 -> 12
-        75.06, 10, -139.04, //b1 -> 13
-
-        46.19, 80,  0.0, //t1 -> 14
-        -28.87, 70, -139.04, //b2 -> 15
-
-        -92.38, 0,  0.0, //t2 -> 16
-        -46.19, -60, -139.04, //b4 -> 17
-
-        -92.38, 0,  0.0, //t2 -> 18
-        -46.19, 60, -139.04, //b3 -> 19
-
-        46.19,  -80,  0.0, //t3 -> 20
-        -28.87, -70, -139.04, //b5 -> 21
-
-        46.19,  -80,  0.0, //t3 -> 22
-        75.06, -10, -139.04, //b6 -> 23
-
-        75.06, 10, -139.04, //b1 -> 24
-        75.06, -10, -139.04, //b6 -> 25
-
-        -28.87, 70, -139.04, //b2 -> 26
-        -46.19, 60, -139.04, //b3 -> 27
-
-        -46.19, -60, -139.04, //b4 -> 28
-        -28.87, -70, -139.04, //b5 -> 29
-    ];
 
     positions = scaleArray(positions, scale);
 
@@ -234,48 +193,24 @@ function getBorders() {
 
     indexSizeCube = indices.length;
 
-    return {
-        positions: positions,
-        colors : generatedColors,
-        index: indices
-    }
-}
-
-function initBuffers(gl) {
-
-    let platform = getPlatform();
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     const colorBuffer = gl.createBuffer();
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(platform.positions), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(platform.colors), gl.STATIC_DRAW);
-    const indexBuffer = gl.createBuffer();
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(generatedColors), gl.STATIC_DRAW);
+    const indexBuffer= gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-        new Uint16Array(platform.index ), gl.STATIC_DRAW);
-
-    let platformBorders = getBorders();
-    const positionBufferCube = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBufferCube);
-    const colorBufferCube = gl.createBuffer();
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(platformBorders.positions), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBufferCube);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(platformBorders.colors), gl.STATIC_DRAW);
-    const indexBufferCube = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBufferCube);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-        new Uint16Array(platformBorders.index ), gl.STATIC_DRAW);
+        new Uint16Array(indices ), gl.STATIC_DRAW);
 
     return {
         position: positionBuffer,
         color: colorBuffer,
-        indices: indexBuffer,
-        positionCube: positionBufferCube,
-        colorCube: colorBufferCube,
-        indicesCube: indexBufferCube
-    };
+        indices: indexBuffer
+    }
 }
+
 function drawScene(gl, programInfo, buffers, deltaTime) {
 
     const fieldOfView = angleView * Math.PI / 180;   // in radians
@@ -321,7 +256,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
         const stride = 0;         // how many bytes to get from one set of values to the next
                                   // 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.bufferPlatform.position);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexPosition,
             numComponents,
@@ -340,7 +275,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
         const normalize = false;
         const stride = 0;
         const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+        gl.bindBuffer(gl.ARRAY_BUFFER,  buffers.bufferPlatform.color);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexColor,
             numComponents,
@@ -354,7 +289,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
     // Tell WebGL which indices to use to index the vertices
     {
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,  buffers.bufferPlatform.indices);
         gl.useProgram(programInfo.program);
         gl.uniformMatrix4fv(
             programInfo.uniformLocations.projectionMatrix,
@@ -381,7 +316,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
         const stride = 0;         // how many bytes to get from one set of values to the next
                                   // 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.positionCube);
+        gl.bindBuffer(gl.ARRAY_BUFFER,  buffers.bufferBorder.position);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexPosition,
             numComponents,
@@ -400,7 +335,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
         const normalize = false;
         const stride = 0;
         const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.colorCube);
+        gl.bindBuffer(gl.ARRAY_BUFFER,  buffers.bufferBorder.color);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexColor,
             numComponents,
@@ -414,7 +349,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
     // Tell WebGL which indices to use to index the vertices
     {
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indicesCube);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,  buffers.bufferBorder.indices);
         gl.useProgram(programInfo.program);
         gl.uniformMatrix4fv(
             programInfo.uniformLocations.projectionMatrix,
@@ -461,8 +396,6 @@ function start() {
         },
     };
 
-    // objects we'll be drawing.
-    const buffers = initBuffers(gl);
 
     // Draw the scene
     let then = 0;
@@ -476,6 +409,13 @@ function start() {
 
         const deltaTime = now - then;
         then = now;
+        let bufferPlatform = getBufferPlatform(gl);
+        let bufferBorder = getBufferBorders(gl);
+
+        let buffers = {
+            bufferPlatform : bufferPlatform,
+            bufferBorder: bufferBorder
+        };
 
         drawScene(gl, programInfo, buffers, deltaTime);
         requestAnimationFrame(render);
@@ -545,7 +485,45 @@ function isometricCamera() {
     };
 }
 function viewCamera() {
+    getDimensions();
     console.log("4viewCamera");
+
+}
+
+function getDimensions(){
+    let rows = document.getElementsByTagName("table")[1].rows;
+    let dimensions = [];
+
+    for(let i=1; i < rows.length; i++){
+        let dimension ={};
+        dimension.x = rows[i].outerText.split("\t")[1];
+        dimension.y = rows[i].outerText.split("\t")[2];
+        dimension.z = rows[i].outerText.split("\t")[3];
+        dimensions[i-1] = dimension;
+    }
+
+
+    let t1 = [ dimensions[0].x,  dimensions[0].y,   dimensions[0].z]; //t1 -> 0
+    let t2 = [ dimensions[1].x,  dimensions[1].y,   dimensions[1].z]; //t2 -> 1
+    let t3 = [ dimensions[2].x,  dimensions[2].y,   dimensions[2].z]; //t3 -> 2
+    let b1 = [ dimensions[3].x,  dimensions[3].y,   dimensions[3].z]; //b1 -> 4
+    let b2 = [ dimensions[4].x,  dimensions[4].y,   dimensions[4].z]; //b2 -> 5
+    let b3 = [ dimensions[5].x,  dimensions[5].y,   dimensions[5].z]; //b3 -> 6
+    let b4 = [ dimensions[6].x,  dimensions[6].y,   dimensions[6].z]; //b4 -> 7
+    let b5 = [ dimensions[7].x,  dimensions[7].y,   dimensions[7].z]; //b5 -> 8
+    let b6 = [ dimensions[8].x,  dimensions[8].y,   dimensions[8].z]; //b6 -> 9
+
+    return {
+        "t1": t1,
+        "t2": t2,
+        "t3": t3,
+        "b1": b1,
+        "b2": b2,
+        "b3": b3,
+        "b4": b4,
+        "b5": b5,
+        "b6": b6
+    };
 }
 
 start();
