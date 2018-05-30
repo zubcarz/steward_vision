@@ -29,7 +29,8 @@ class Canvas extends React.Component {
                 <ReactCursorPosition onPositionChanged = {this.props.mousePosition}>
                     <div
                         className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <CanvasDraw  canvasDown ={this.props.canvasDown} canvasUp = {this.props.canvasUp} borderColor ={this.props.borderColor} />
+                        <CanvasDraw  canvasDown ={this.props.canvasDown} canvasUp = {this.props.canvasUp} borderColor ={this.props.borderColor}
+                                    />
                     </div>
 
                 </ReactCursorPosition>

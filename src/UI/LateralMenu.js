@@ -138,8 +138,8 @@ class LateralMenu extends React.Component {
                                             <br/> <br/>
                                             <InputRange
                                                 formatLabel={value => `${value} mm`}
-                                                minValue={-30}
-                                                maxValue={30}
+                                                minValue={-45}
+                                                maxValue={45}
                                                 value={this.props.valuePitch}
                                                 onChange= {this.props.pitchChange} />
                                             <br/><hr/>
@@ -147,8 +147,8 @@ class LateralMenu extends React.Component {
                                             <br/> <br/>
                                             <InputRange
                                                 formatLabel={value => `${value} mm`}
-                                                minValue={-30}
-                                                maxValue={30}
+                                                minValue={-45}
+                                                maxValue={45}
                                                 value={this.props.valueYaw}
                                                 onChange= {this.props.yawChange} />
                                             <br/><hr/>
@@ -156,8 +156,8 @@ class LateralMenu extends React.Component {
                                             <br/> <br/>
                                             <InputRange
                                                 formatLabel={value => `${value} mm`}
-                                                minValue={-30}
-                                                maxValue={30}
+                                                minValue={-45}
+                                                maxValue={45}
                                                 value={this.props.valueRoll}
                                                 onChange= {this.props.rollChange}/>
                                             <br/><hr/>
