@@ -31,7 +31,9 @@ class App extends Component {
             canvasWidth: 0,
             canvasHeight: 0,
             mouseIsCLick: false,
-            view: "Isometric"
+            view: "Isometric",
+            actionView: "Pitch, Roll",
+            borderColor: { color : "black"}
         }
     };
 
@@ -234,20 +236,125 @@ class App extends Component {
         );
     };
 
-    onChange = (event) =>{
-
+    onChangePosition = (event) =>{
         this.setState(
             {
                 mouseY : event.position.y,
                 mouseX: event.position.x,
-                canvasWidth:  event.width ,
-                canvasHeight: event.height
+                canvasWidth:  (event["elementDimensions"] != undefined) ? event.elementDimensions.width : 0,
+                canvasHeight:  (event["elementDimensions"] != undefined) ? event.elementDimensions.height : 0,
+                borderColor: { color : "black"}
             }
         );
 
         if(this.state.mouseIsCLick){
-            console.log("mouse active");
+            console.log( "y : " + this.state.mouseY);
+            console.log( "x : " + this.state.mouseX);
+            console.log( "w : " + this.state.canvasWidth);
+            console.log( "w : " + this.state.canvasHeight);
+            let isSelect = false;
+            switch(this.state.view){
+                case "Top":
+                    if(this.state.mouseX > this.state.canvasWidth * 0.40 && this.state.mouseX < this.state.canvasWidth * 0.56
+                    && this.state.mouseY > this.state.canvasHeight * 0.31 && this.state.mouseY < this.state.canvasHeight * 0.62){
+                        this.yChange(this.LineRegression(this.state.canvasWidth * 0.56, this.state.canvasWidth * 0.40, 50, -50, this.state.mouseX));
+                        this.xChange(this.LineRegression(this.state.canvasHeight * 0.62, this.state.canvasHeight * 0.31, 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+                    break;
+                case "Right":
+                    if(this.state.mouseX > this.state.canvasWidth * (505/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (774/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (29/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (275/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (275/this.state.canvasHeight), this.state.canvasHeight * (29/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+                    break;
+                case "From":
+                    if(this.state.mouseX > this.state.canvasWidth * (479/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (803/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (69/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (275/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (275/this.state.canvasHeight), this.state.canvasHeight * (69/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+                    break;
+                case "Isometric":
+                    if(this.state.mouseX > this.state.canvasWidth * (525/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (777/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (123/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (296/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (296/this.state.canvasHeight), this.state.canvasHeight * (123/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+                    break;
+                case "4View":
+                    // Top
+                    if(this.state.mouseX > this.state.canvasWidth * 0.1556 && this.state.mouseX < this.state.canvasWidth * 0.3439
+                        &&  this.state.mouseY > this.state.canvasHeight * 0.056 && this.state.mouseY < this.state.canvasHeight * 0.5136){
+                        this.yChange(this.LineRegression(this.state.canvasWidth * 0.3439, this.state.canvasWidth * 0.1556, 50, -50, this.state.mouseX));
+                        this.xChange(this.LineRegression(this.state.canvasHeight * 0.5136, this.state.canvasHeight * 0.056, 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+
+                    //Right
+                    if(this.state.mouseX > this.state.canvasWidth * (898/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (1025/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (23/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (150/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (150/this.state.canvasHeight), this.state.canvasHeight * (23/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+
+                    //From
+                    if(this.state.mouseX > this.state.canvasWidth * (237/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (401/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (362/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (447/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (447/this.state.canvasHeight), this.state.canvasHeight * (362/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+
+                    //Isometrics
+                    if(this.state.mouseX > this.state.canvasWidth * (900/this.state.canvasWidth) && this.state.mouseX < this.state.canvasWidth * (1033/this.state.canvasWidth)
+                        &&  this.state.mouseY > this.state.canvasHeight * (344/this.state.canvasHeight) && this.state.mouseY < this.state.canvasHeight * (465/this.state.canvasHeight)){
+                        this.zChange(-this.LineRegression(this.state.canvasHeight * (465/this.state.canvasHeight), this.state.canvasHeight * (344/this.state.canvasHeight), 50, -50, this.state.mouseY));
+                        isSelect = true;
+                    }else{
+                        isSelect = false;
+                    }
+            }
+            if(isSelect){
+                this.setState(
+                    {
+                        borderColor: {
+                            color : "#ccccff",
+                            "box-shadow" : "1px 1px 1px 1px #ccccff"
+                        }
+                    }
+                );
+            }
         }
+    };
+
+     LineRegression = (x2, x1, y2, y1, value) => {
+
+        const m = (y2-y1)/(x2-x1);
+        const b = -((x2+x1)/2) * m;
+        let result  = m*value + b;
+        if (result > y2){
+            result = y2;
+        }
+        if(result < y1){
+            result = y1;
+        }
+        return result;
+
     };
 
     canvasDown = (event) => {
@@ -267,38 +374,42 @@ class App extends Component {
     topView = (event) => {
         this.setState(
             {
-                view: "Top"
+                view: "Top",
+                actionView: "X, Y, Yaw"
             });
     };
 
     rightView = (event) => {
         this.setState(
             {
-                view: "Right"
+                view: "Right",
+                actionView: "Z, Roll"
             });
     };
 
     fromView = (event) => {
         this.setState(
             {
-                view: "From"
+                view: "From",
+                actionView: "Z, Pitch"
             });
     };
 
     isometricView = (event) => {
         this.setState(
             {
-                view: "Isometric"
+                view: "Isometric",
+                actionView: "Pitch, Roll"
             });
     };
 
     multipleView = (event) => {
         this.setState(
             {
-                view: "4View"
+                view: "4View",
+                actionView: "X, Y, Z, Pitch, Yaw, Roll"
             });
     };
-
 
     render() {
         return (
@@ -308,9 +419,9 @@ class App extends Component {
             valueX={this.state.valueX} valueY={this.state.valueY} valueZ={this.state.valueZ} valuePitch={this.state.valuePitch} valueRoll={this.state.valueRoll}
             valueYaw={this.state.valueYaw} xChange={this.xChange} yChange={this.yChange} zChange={this.zChange} pitchChange={this.pitchChange} yawChange={this.yawChange}
             rollChange={this.rollChange}/>
-            <Canvas  downDimension={this.state.downDimension} upDimension = {this.state.upDimension} legs = {this.state.legs} mousePosition ={this.onChange}
-                     canvasDown ={this.canvasDown} canvasUp = {this.canvasUp} view = {this.state.view} topView={this.topView} fromView={this.fromView}
-                     rightView={this.rightView} isometricView={this.isometricView} multipleView={this.multipleView}/>
+            <Canvas  downDimension={this.state.downDimension} upDimension = {this.state.upDimension} legs = {this.state.legs} mousePosition ={this.onChangePosition}
+                     canvasDown ={this.canvasDown} canvasUp = {this.canvasUp} view = {this.state.view} actionView = {this.state.actionView} topView={this.topView} fromView={this.fromView}
+                     rightView={this.rightView} isometricView={this.isometricView} multipleView={this.multipleView} borderColor ={this.state.borderColor}/>
           </div>
         );
     }

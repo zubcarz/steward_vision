@@ -1,7 +1,7 @@
 canvas {
-    display: block;  /* prevents scrollbar */
+    display: block;
     width: 100vw;
     height: 600px;
     background: black;
-    border:1px solid #000000;
+    border:1px solid;
 }

@@ -120,8 +120,8 @@ class LateralMenu extends React.Component {
                                             <br/> <br/>
                                             <InputRange
                                                 formatLabel={value => `${value} mm`}
-                                                minValue={-30}
-                                                maxValue={30}
+                                                minValue={-50}
+                                                maxValue={50}
                                                 value={this.props.valueY}
                                                 onChange= {this.props.yChange} />
                                             <br/><hr/>
@@ -129,8 +129,8 @@ class LateralMenu extends React.Component {
                                             <br/> <br/>
                                             <InputRange
                                                 formatLabel={value => `${value} mm`}
-                                                minValue={-30}
-                                                maxValue={30}
+                                                minValue={-50}
+                                                maxValue={50}
                                                 value={this.props.valueZ}
                                                 onChange= {this.props.zChange} />
                                             <br/><hr/>
