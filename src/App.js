@@ -267,6 +267,7 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.yawChange(this.LineRegression(this.state.canvasWidth * 0.56, this.state.canvasWidth * 0.40, 45, -45, this.state.mouseX));
                         }
                         isSelect = true;
                     }else{
@@ -281,6 +282,8 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.rollChange(-this.LineRegression(this.state.canvasHeight * (275 / this.state.canvasHeight), this.state.canvasHeight * (29 / this.state.canvasHeight), 45, -45, this.state.mouseY));
+
                         }
                         isSelect = true;
                     }else{
@@ -295,6 +298,7 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.pitchChange(-this.LineRegression(this.state.canvasHeight * (275 / this.state.canvasHeight), this.state.canvasHeight * (69 / this.state.canvasHeight), 45, -45, this.state.mouseY));
                         }
                         isSelect = true;
                     }else{
@@ -309,6 +313,8 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.rollChange(this.LineRegression(this.state.canvasHeight * (296 / this.state.canvasHeight), this.state.canvasHeight * (123 / this.state.canvasHeight), 45, -45, this.state.mouseY));
+                            this.pitchChange(this.LineRegression(this.state.canvasWidth * (777/this.state.canvasWidth), this.state.canvasWidth * (525/this.state.canvasWidth) , 45, -45, this.state.mouseX));
                         }
                         isSelect = true;
                     }else{
@@ -325,6 +331,7 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.yawChange(this.LineRegression(this.state.canvasWidth * 0.3439, this.state.canvasWidth * 0.1556, 50, -50, this.state.mouseX));
                         }
                         isSelect = true;
                         //Right
@@ -335,6 +342,7 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.rollChange(-this.LineRegression(this.state.canvasHeight * (150/this.state.canvasHeight), this.state.canvasHeight * (23/this.state.canvasHeight), 45, -45, this.state.mouseY));
                         }
                         isSelect = true;
                         //From
@@ -345,6 +353,7 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.pitchChange(-this.LineRegression(this.state.canvasHeight * (447/this.state.canvasHeight), this.state.canvasHeight * (362/this.state.canvasHeight), 45, -45, this.state.mouseY));
                         }
                         isSelect = true;
                         //Isometrics
@@ -355,6 +364,8 @@ class App extends Component {
                         }else{
                             color ="#ffcccc";
                             boxShadow : "1px 1px 1px 1px #ffcccc";
+                            this.rollChange(this.LineRegression(this.state.canvasHeight * (465 / this.state.canvasHeight), this.state.canvasHeight * (344 / this.state.canvasHeight), 45, -45, this.state.mouseY));
+                            this.pitchChange(this.LineRegression(this.state.canvasWidth * (1033/this.state.canvasWidth), this.state.canvasWidth * (900/this.state.canvasWidth) , 45, -45, this.state.mouseX));
                         }
                         isSelect = true;
                     }else{

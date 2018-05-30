@@ -1,4 +1,5 @@
 "use strict";
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 let gl;
 let rotation = 0;
