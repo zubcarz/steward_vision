@@ -25,7 +25,13 @@ class App extends Component {
             valueRoll: 0,
             downDimension: platform.getVerticesDownPlatform(),
             upDimension: platform.getVerticesUpPlatform(),
-            legs: platform.getLegs()
+            legs: platform.getLegs(),
+            mouseY : 0,
+            mouseX: 0,
+            canvasWidth: 0,
+            canvasHeight: 0,
+            mouseIsCLick: false,
+            view: "Isometric"
         }
     };
 
@@ -228,6 +234,72 @@ class App extends Component {
         );
     };
 
+    onChange = (event) =>{
+
+        this.setState(
+            {
+                mouseY : event.position.y,
+                mouseX: event.position.x,
+                canvasWidth:  event.width ,
+                canvasHeight: event.height
+            }
+        );
+
+        if(this.state.mouseIsCLick){
+            console.log("mouse active");
+        }
+    };
+
+    canvasDown = (event) => {
+        this.setState(
+            {
+                mouseIsCLick: true
+            });
+    };
+
+    canvasUp = (event) => {
+        this.setState(
+            {
+                mouseIsCLick: false
+            });
+    };
+
+    topView = (event) => {
+        this.setState(
+            {
+                view: "Top"
+            });
+    };
+
+    rightView = (event) => {
+        this.setState(
+            {
+                view: "Right"
+            });
+    };
+
+    fromView = (event) => {
+        this.setState(
+            {
+                view: "From"
+            });
+    };
+
+    isometricView = (event) => {
+        this.setState(
+            {
+                view: "Isometric"
+            });
+    };
+
+    multipleView = (event) => {
+        this.setState(
+            {
+                view: "4View"
+            });
+    };
+
+
     render() {
         return (
           <div className="App">
@@ -236,7 +308,9 @@ class App extends Component {
             valueX={this.state.valueX} valueY={this.state.valueY} valueZ={this.state.valueZ} valuePitch={this.state.valuePitch} valueRoll={this.state.valueRoll}
             valueYaw={this.state.valueYaw} xChange={this.xChange} yChange={this.yChange} zChange={this.zChange} pitchChange={this.pitchChange} yawChange={this.yawChange}
             rollChange={this.rollChange}/>
-            <Canvas  downDimension={this.state.downDimension} upDimension = {this.state.upDimension} legs = {this.state.legs}/>
+            <Canvas  downDimension={this.state.downDimension} upDimension = {this.state.upDimension} legs = {this.state.legs} mousePosition ={this.onChange}
+                     canvasDown ={this.canvasDown} canvasUp = {this.canvasUp} view = {this.state.view} topView={this.topView} fromView={this.fromView}
+                     rightView={this.rightView} isometricView={this.isometricView} multipleView={this.multipleView}/>
           </div>
         );
     }
